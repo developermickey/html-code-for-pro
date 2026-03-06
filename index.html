@@ -1,0 +1,1656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interview Pro — 100% Cheat-Proof Technical Interviews</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --blue: #0652e9;
+    --blue-dim: #0444c4;
+    --blue-glow: rgba(6, 82, 233, 0.35);
+    --blue-light: rgba(6, 82, 233, 0.08);
+    --black: #080808;
+    --black-soft: #111111;
+    --black-card: #141414;
+    --black-border: #1e1e1e;
+    --white: #ffffff;
+    --white-off: #f5f5f5;
+    --white-dim: rgba(255,255,255,0.6);
+    --white-faint: rgba(255,255,255,0.08);
+    --white-line: rgba(255,255,255,0.1);
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── NOISE TEXTURE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* ─── NAVIGATION ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 1000;
+    padding: 0 5vw;
+    height: 70px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(8,8,8,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--white-line);
+    transition: all 0.4s ease;
+  }
+
+  nav.scrolled {
+    background: rgba(8,8,8,0.97);
+    box-shadow: 0 4px 40px rgba(6,82,233,0.15);
+  }
+
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none;
+  }
+
+  .logo-mark {
+    width: 36px; height: 36px;
+    background: var(--blue);
+    clip-path: polygon(0 0, 100% 0, 100% 70%, 70% 100%, 0 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display);
+    font-size: 18px;
+    color: white;
+    transition: transform 0.3s ease;
+  }
+
+  .nav-logo:hover .logo-mark { transform: rotate(8deg) scale(1.1); }
+
+  .logo-text {
+    font-family: var(--font-display);
+    font-size: 22px;
+    letter-spacing: 2px;
+    color: var(--white);
+  }
+
+  .logo-text span { color: var(--blue); }
+
+  .nav-links {
+    display: flex; gap: 40px; list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--white-dim);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.2s ease;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 2px;
+    background: var(--blue);
+    transition: width 0.3s ease;
+  }
+
+  .nav-links a:hover { color: var(--white); }
+  .nav-links a:hover::after { width: 100%; }
+
+  .nav-cta {
+    display: flex; gap: 12px; align-items: center;
+  }
+
+  .btn-ghost {
+    padding: 9px 20px;
+    background: transparent;
+    color: var(--white-dim);
+    border: 1px solid var(--black-border);
+    border-radius: 4px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .btn-ghost:hover {
+    color: var(--white);
+    border-color: rgba(255,255,255,0.3);
+  }
+
+  .btn-primary {
+    padding: 9px 22px;
+    background: var(--blue);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-primary::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .btn-primary:hover {
+    background: var(--blue-dim);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 30px var(--blue-glow);
+  }
+  .btn-primary:hover::before { opacity: 1; }
+
+  /* ─── HERO SECTION ─── */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 70px 5vw 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Grid background */
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 40%, transparent 100%);
+  }
+
+  /* Blue radial glow */
+  .hero-glow {
+    position: absolute;
+    top: 10%; right: -10%;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(6,82,233,0.2) 0%, transparent 65%);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: glow-pulse 8s ease-in-out infinite;
+  }
+
+  .hero-glow-2 {
+    position: absolute;
+    bottom: -20%; left: -5%;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(6,82,233,0.1) 0%, transparent 65%);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: glow-pulse 10s ease-in-out infinite reverse;
+  }
+
+  @keyframes glow-pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.7; }
+  }
+
+  .hero-inner {
+    position: relative; z-index: 2;
+    max-width: 1300px; margin: 0 auto; width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    padding: 80px 0;
+  }
+
+  .hero-left { }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--blue-light);
+    border: 1px solid rgba(6,82,233,0.3);
+    color: #6fa3ff;
+    padding: 6px 16px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    animation: fadeSlideUp 0.6s ease-out both;
+  }
+
+  .badge-dot {
+    width: 6px; height: 6px;
+    background: var(--blue);
+    border-radius: 50%;
+    animation: blink 2s ease-in-out infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .hero-headline {
+    font-family: var(--font-display);
+    font-size: clamp(64px, 7vw, 100px);
+    line-height: 0.92;
+    letter-spacing: 1px;
+    color: var(--white);
+    margin-bottom: 28px;
+    animation: fadeSlideUp 0.7s ease-out 0.1s both;
+  }
+
+  .hero-headline .line-blue { color: var(--blue); }
+
+  .hero-headline .line-outline {
+    -webkit-text-stroke: 1.5px rgba(255,255,255,0.4);
+    color: transparent;
+  }
+
+  .hero-body {
+    font-size: 17px;
+    line-height: 1.75;
+    color: var(--white-dim);
+    max-width: 480px;
+    margin-bottom: 44px;
+    font-weight: 300;
+    animation: fadeSlideUp 0.7s ease-out 0.2s both;
+  }
+
+  .hero-actions {
+    display: flex; gap: 14px; flex-wrap: wrap;
+    animation: fadeSlideUp 0.7s ease-out 0.3s both;
+  }
+
+  .btn-xl {
+    padding: 15px 34px;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+  }
+
+  .btn-outline-xl {
+    padding: 15px 34px;
+    font-size: 15px;
+    font-weight: 500;
+    background: transparent;
+    color: var(--white-dim);
+    border: 1px solid var(--black-border);
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    letter-spacing: 0.5px;
+  }
+
+  .btn-outline-xl:hover {
+    color: var(--white);
+    border-color: rgba(255,255,255,0.25);
+    background: var(--white-faint);
+  }
+
+  .hero-free-note {
+    margin-top: 18px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 0.5px;
+    animation: fadeSlideUp 0.7s ease-out 0.4s both;
+  }
+
+  .hero-free-note strong { color: #6fa3ff; }
+
+  /* Hero right - feature preview card */
+  .hero-right {
+    position: relative;
+    animation: fadeSlideUp 0.9s ease-out 0.3s both;
+  }
+
+  .hero-card {
+    background: var(--black-card);
+    border: 1px solid var(--black-border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.6), 0 0 0 1px rgba(6,82,233,0.1);
+    position: relative;
+  }
+
+  .hero-card-header {
+    background: var(--black-soft);
+    padding: 14px 20px;
+    display: flex; align-items: center; gap: 10px;
+    border-bottom: 1px solid var(--black-border);
+  }
+
+  .traffic-lights {
+    display: flex; gap: 6px;
+  }
+
+  .tl {
+    width: 11px; height: 11px; border-radius: 50%;
+  }
+
+  .tl-r { background: #ff5f56; }
+  .tl-y { background: #ffbd2e; }
+  .tl-g { background: #27c93f; }
+
+  .card-title-bar {
+    flex: 1;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    text-align: center;
+    letter-spacing: 1px;
+  }
+
+  .hero-card-body {
+    padding: 28px;
+  }
+
+  .monitor-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .monitor-tile {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--black-border);
+    border-radius: 10px;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .monitor-tile.active { border-color: rgba(6,82,233,0.4); }
+
+  .monitor-tile-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 10px;
+  }
+
+  .monitor-tile.active .monitor-tile-label { color: #6fa3ff; }
+
+  .monitor-icon {
+    font-size: 28px;
+    margin-bottom: 6px;
+  }
+
+  .monitor-status {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.4);
+  }
+
+  .monitor-tile.active .monitor-status { color: #4ade80; }
+
+  .status-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+  }
+
+  .monitor-tile.active .status-dot {
+    background: #4ade80;
+    box-shadow: 0 0 8px rgba(74,222,128,0.5);
+    animation: blink 1.5s ease-in-out infinite;
+  }
+
+  .monitor-tile:nth-child(3) { grid-column: 1 / -1; }
+
+  .card-score-row {
+    display: flex; gap: 12px;
+  }
+
+  .score-chip {
+    flex: 1;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--black-border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+
+  .score-chip-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    font-weight: 500;
+  }
+
+  .score-chip-val {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--white);
+  }
+
+  .score-chip-val.pass { color: #4ade80; }
+  .score-chip-val.warn { color: #facc15; }
+
+  /* floating badges on hero card */
+  .floating-tag {
+    position: absolute;
+    background: var(--blue);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 100px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    box-shadow: 0 8px 24px rgba(6,82,233,0.5);
+  }
+
+  .ft-1 {
+    top: -14px; right: 40px;
+    animation: float1 5s ease-in-out infinite;
+  }
+
+  .ft-2 {
+    bottom: -14px; left: 40px;
+    background: #14141e;
+    border: 1px solid rgba(6,82,233,0.4);
+    color: #6fa3ff;
+    animation: float2 6s ease-in-out infinite;
+  }
+
+  @keyframes float1 {
+    0%,100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  @keyframes float2 {
+    0%,100% { transform: translateY(0px); }
+    50% { transform: translateY(8px); }
+  }
+
+  /* ─── STATS BAR ─── */
+  .stats-bar {
+    border-top: 1px solid var(--black-border);
+    border-bottom: 1px solid var(--black-border);
+    background: var(--black-soft);
+    padding: 50px 5vw;
+  }
+
+  .stats-inner {
+    max-width: 1300px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+  }
+
+  .stat-item {
+    padding: 0 40px;
+    border-right: 1px solid var(--black-border);
+    text-align: center;
+  }
+
+  .stat-item:last-child { border-right: none; }
+  .stat-item:first-child { padding-left: 0; }
+
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: clamp(42px, 4vw, 60px);
+    color: var(--white);
+    letter-spacing: 1px;
+    line-height: 1;
+  }
+
+  .stat-num span { color: var(--blue); }
+
+  .stat-label {
+    margin-top: 8px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+    font-weight: 400;
+    letter-spacing: 0.5px;
+  }
+
+  /* ─── SECTION SHARED ─── */
+  section {
+    padding: 120px 5vw;
+  }
+
+  .section-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--blue);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+
+  .section-tag::before {
+    content: '';
+    width: 28px; height: 1px;
+    background: var(--blue);
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(44px, 5vw, 72px);
+    line-height: 0.95;
+    color: var(--white);
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+  }
+
+  .section-title em {
+    font-style: normal;
+    color: var(--blue);
+  }
+
+  .section-sub {
+    font-size: 16px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.7;
+    max-width: 560px;
+    font-weight: 300;
+  }
+
+  /* ─── FEATURES ─── */
+  .features { background: var(--black); }
+
+  .features-inner {
+    max-width: 1300px; margin: 0 auto;
+  }
+
+  .features-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: end;
+    margin-bottom: 80px;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--black-border);
+    border: 1px solid var(--black-border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .feat-card {
+    background: var(--black-soft);
+    padding: 44px 36px;
+    transition: background 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+  }
+
+  .feat-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 3px;
+    background: var(--blue);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+
+  .feat-card:hover { background: var(--black-card); }
+  .feat-card:hover::before { transform: scaleX(1); }
+
+  .feat-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 1px;
+    margin-bottom: 24px;
+  }
+
+  .feat-icon {
+    font-size: 36px;
+    margin-bottom: 20px;
+    display: block;
+    filter: grayscale(0);
+    transition: transform 0.3s ease;
+  }
+
+  .feat-card:hover .feat-icon { transform: scale(1.15) rotate(5deg); }
+
+  .feat-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 12px;
+    letter-spacing: -0.2px;
+  }
+
+  .feat-desc {
+    font-size: 14px;
+    color: rgba(255,255,255,0.4);
+    line-height: 1.75;
+    font-weight: 300;
+  }
+
+  /* ─── SECURITY TRIPLE LAYER ─── */
+  .security {
+    background: var(--black-soft);
+    border-top: 1px solid var(--black-border);
+    border-bottom: 1px solid var(--black-border);
+  }
+
+  .security-inner {
+    max-width: 1300px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: center;
+  }
+
+  .security-visual {
+    position: relative;
+  }
+
+  .layer-stack {
+    position: relative;
+    height: 420px;
+  }
+
+  .layer-card {
+    position: absolute;
+    width: 100%;
+    background: var(--black-card);
+    border: 1px solid var(--black-border);
+    border-radius: 14px;
+    padding: 24px 28px;
+    display: flex; align-items: center; gap: 20px;
+    transition: all 0.4s ease;
+  }
+
+  .layer-card:nth-child(1) { top: 0; left: 0; z-index: 3; }
+  .layer-card:nth-child(2) { top: 130px; left: 20px; z-index: 2; width: calc(100% - 40px); }
+  .layer-card:nth-child(3) { top: 260px; left: 40px; z-index: 1; width: calc(100% - 80px); }
+
+  .layer-card:hover {
+    transform: translateX(-8px) scale(1.02);
+    border-color: rgba(6,82,233,0.4);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 0 0 1px rgba(6,82,233,0.2);
+    z-index: 10 !important;
+  }
+
+  .layer-ico {
+    width: 56px; height: 56px;
+    background: var(--blue-light);
+    border: 1px solid rgba(6,82,233,0.25);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+    transition: background 0.3s;
+  }
+
+  .layer-card:hover .layer-ico {
+    background: rgba(6,82,233,0.2);
+  }
+
+  .layer-info { flex: 1; }
+
+  .layer-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .layer-desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.35);
+    line-height: 1.5;
+  }
+
+  .layer-badge {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    background: rgba(6,82,233,0.2);
+    color: #6fa3ff;
+    border: 1px solid rgba(6,82,233,0.3);
+    padding: 4px 10px;
+    border-radius: 100px;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+  }
+
+  .security-right .section-tag { margin-bottom: 18px; }
+
+  .security-points {
+    margin-top: 44px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .sec-point {
+    display: flex; align-items: flex-start; gap: 16px;
+    padding: 20px;
+    background: var(--black-card);
+    border: 1px solid var(--black-border);
+    border-radius: 10px;
+    transition: border-color 0.3s ease;
+  }
+
+  .sec-point:hover { border-color: rgba(6,82,233,0.35); }
+
+  .sec-check {
+    width: 28px; height: 28px;
+    background: rgba(6,82,233,0.15);
+    border: 1px solid rgba(6,82,233,0.3);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: #6fa3ff;
+    font-weight: 700;
+  }
+
+  .sec-text-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .sec-text-desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.35);
+    line-height: 1.6;
+  }
+
+  /* ─── HOW IT WORKS ─── */
+  .how {
+    background: var(--black);
+  }
+
+  .how-inner {
+    max-width: 1300px; margin: 0 auto;
+  }
+
+  .how-header { margin-bottom: 80px; }
+
+  .how-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    position: relative;
+  }
+
+  .how-steps::before {
+    content: '';
+    position: absolute;
+    top: 44px; left: 10%; right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--black-border) 20%, var(--black-border) 80%, transparent);
+    z-index: 0;
+  }
+
+  .step {
+    text-align: center;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .step-num-wrap {
+    width: 88px; height: 88px;
+    margin: 0 auto 28px;
+    position: relative;
+  }
+
+  .step-num {
+    width: 88px; height: 88px;
+    background: var(--black-soft);
+    border: 1px solid var(--black-border);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display);
+    font-size: 36px;
+    color: rgba(255,255,255,0.2);
+    transition: all 0.4s ease;
+    cursor: default;
+  }
+
+  .step:hover .step-num {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: white;
+    box-shadow: 0 0 40px rgba(6,82,233,0.4);
+    transform: scale(1.1);
+  }
+
+  .step-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+
+  .step-desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.35);
+    line-height: 1.7;
+  }
+
+  /* ─── PRICING ─── */
+  .pricing {
+    background: var(--black-soft);
+    border-top: 1px solid var(--black-border);
+  }
+
+  .pricing-inner {
+    max-width: 1300px; margin: 0 auto;
+  }
+
+  .pricing-header { margin-bottom: 70px; }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  .p-card {
+    background: var(--black-card);
+    border: 1px solid var(--black-border);
+    border-radius: 14px;
+    padding: 36px 28px;
+    display: flex; flex-direction: column;
+    transition: all 0.35s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .p-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--black-border);
+    transition: background 0.3s;
+  }
+
+  .p-card:hover {
+    border-color: rgba(6,82,233,0.3);
+    transform: translateY(-8px);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+  }
+
+  .p-card:hover::before { background: var(--blue); }
+
+  .p-card.featured {
+    border-color: rgba(6,82,233,0.5);
+    background: linear-gradient(160deg, rgba(6,82,233,0.12) 0%, var(--black-card) 60%);
+    box-shadow: 0 0 0 1px rgba(6,82,233,0.2), 0 30px 60px rgba(6,82,233,0.1);
+  }
+
+  .p-card.featured::before { background: var(--blue); }
+
+  .p-card.featured:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 0 1px rgba(6,82,233,0.4), 0 40px 80px rgba(6,82,233,0.2);
+  }
+
+  .p-pop-badge {
+    position: absolute; top: -1px; right: 24px;
+    background: var(--blue);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 5px 14px;
+    border-radius: 0 0 8px 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .p-name {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .p-card.featured .p-name { color: #6fa3ff; }
+
+  .p-price-old {
+    font-size: 13px;
+    color: rgba(255,255,255,0.2);
+    text-decoration: line-through;
+    margin-bottom: 4px;
+  }
+
+  .p-price {
+    font-family: var(--font-display);
+    font-size: 54px;
+    color: var(--white);
+    line-height: 1;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .p-price sub {
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.4);
+    vertical-align: baseline;
+    letter-spacing: 0;
+  }
+
+  .p-period {
+    font-size: 13px;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 6px;
+  }
+
+  .p-save-badge {
+    display: inline-block;
+    background: rgba(74,222,128,0.12);
+    border: 1px solid rgba(74,222,128,0.25);
+    color: #4ade80;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 100px;
+    margin-bottom: 28px;
+    letter-spacing: 0.5px;
+  }
+
+  .p-divider {
+    height: 1px;
+    background: var(--black-border);
+    margin-bottom: 24px;
+  }
+
+  .p-admin {
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  .p-admin strong { color: rgba(255,255,255,0.6); }
+
+  .p-features {
+    list-style: none;
+    flex: 1;
+    margin-bottom: 32px;
+  }
+
+  .p-features li {
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    padding: 7px 0;
+    display: flex; align-items: flex-start; gap: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .p-features li:last-child { border-bottom: none; }
+
+  .p-check { color: #4ade80; font-weight: 700; flex-shrink: 0; }
+  .p-check-blue { color: #6fa3ff; font-weight: 700; flex-shrink: 0; }
+
+  .p-card .btn-primary,
+  .p-card .btn-ghost { width: 100%; text-align: center; padding: 12px; font-size: 14px; }
+
+  /* ─── CTA ─── */
+  .cta-section {
+    background: var(--black);
+    border-top: 1px solid var(--black-border);
+    padding: 120px 5vw;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-bg-text {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-display);
+    font-size: 300px;
+    color: rgba(255,255,255,0.015);
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+    letter-spacing: 10px;
+  }
+
+  .cta-glow {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px; height: 300px;
+    background: radial-gradient(ellipse, rgba(6,82,233,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .cta-inner {
+    max-width: 900px; margin: 0 auto;
+    text-align: center;
+    position: relative; z-index: 2;
+  }
+
+  .cta-title {
+    font-family: var(--font-display);
+    font-size: clamp(56px, 7vw, 96px);
+    line-height: 0.93;
+    color: var(--white);
+    letter-spacing: 1px;
+    margin-bottom: 28px;
+  }
+
+  .cta-title em {
+    font-style: normal;
+    color: var(--blue);
+  }
+
+  .cta-sub {
+    font-size: 17px;
+    color: rgba(255,255,255,0.4);
+    line-height: 1.75;
+    max-width: 600px;
+    margin: 0 auto 50px;
+    font-weight: 300;
+  }
+
+  .cta-actions {
+    display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+  }
+
+  .cta-note {
+    margin-top: 22px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 0.5px;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--black-soft);
+    border-top: 1px solid var(--black-border);
+    padding: 60px 5vw 40px;
+  }
+
+  .footer-inner {
+    max-width: 1300px; margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  .footer-brand { display: flex; align-items: center; gap: 10px; }
+
+  .footer-copy {
+    font-size: 13px;
+    color: rgba(255,255,255,0.2);
+  }
+
+  .footer-links {
+    display: flex; gap: 32px;
+  }
+
+  .footer-links a {
+    font-size: 13px;
+    color: rgba(255,255,255,0.25);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: rgba(255,255,255,0.6); }
+
+  .footer-badge {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #6fa3ff;
+    background: rgba(6,82,233,0.1);
+    border: 1px solid rgba(6,82,233,0.2);
+    padding: 5px 14px;
+    border-radius: 100px;
+    letter-spacing: 1px;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Stagger delays */
+  .delay-1 { transition-delay: 0.1s; }
+  .delay-2 { transition-delay: 0.2s; }
+  .delay-3 { transition-delay: 0.3s; }
+  .delay-4 { transition-delay: 0.4s; }
+
+  /* ─── MOBILE ─── */
+  @media (max-width: 1024px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 60px; padding: 60px 0; }
+    .hero-right { display: none; }
+    .features-header { grid-template-columns: 1fr; gap: 40px; }
+    .features-grid { grid-template-columns: repeat(2, 1fr); }
+    .security-inner { grid-template-columns: 1fr; gap: 60px; }
+    .how-steps { grid-template-columns: repeat(2, 1fr); gap: 50px; }
+    .how-steps::before { display: none; }
+    .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+    .stats-inner { grid-template-columns: repeat(2, 1fr); gap: 40px; }
+    .stat-item { border-right: none; padding: 20px 0; border-bottom: 1px solid var(--black-border); }
+    .stat-item:last-child, .stat-item:nth-child(2) { border-bottom: none; }
+  }
+
+  @media (max-width: 640px) {
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    section { padding: 80px 24px; }
+    .features-grid { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .how-steps { grid-template-columns: 1fr; }
+    .cta-bg-text { font-size: 120px; }
+    .footer-inner { flex-direction: column; text-align: center; }
+    .footer-links { flex-wrap: wrap; justify-content: center; gap: 20px; }
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--black); }
+  ::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 3px; }
+  ::selection { background: var(--blue); color: white; }
+</style>
+</head>
+<body>
+
+<!-- ─── NAVIGATION ─── -->
+<nav id="main-nav">
+  <a href="#" class="nav-logo">
+    <div class="logo-mark">IP</div>
+    <span class="logo-text">INTERVIEW<span>PRO</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#security">Security</a></li>
+    <li><a href="#how-it-works">How It Works</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+  </ul>
+  <div class="nav-cta">
+    <a href="/admin-login.html" class="btn-ghost">Log in</a>
+    <a href="/admin-register.html" class="btn-primary">Start Free →</a>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow-2"></div>
+
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        5 Free Interview Sessions Included
+      </div>
+      <h1 class="hero-headline">
+        100%<br>
+        <span class="line-blue">CHEAT-PROOF</span><br>
+        <span class="line-outline">INTERVIEWS</span>
+      </h1>
+      <p class="hero-body">
+        The only platform with triple-layer monitoring — Webcam + Screen + Mobile. Every result is authentic, verified, and reflects genuine candidate ability.
+      </p>
+      <div class="hero-actions">
+        <a href="/admin-register.html" class="btn-primary btn-xl">Get Started Free</a>
+        <a href="#features" class="btn-outline-xl">Explore Platform ↓</a>
+      </div>
+      <p class="hero-free-note">No credit card required &nbsp;·&nbsp; <strong>5 sessions free</strong> &nbsp;·&nbsp; Full platform access</p>
+    </div>
+
+    <div class="hero-right">
+      <div class="floating-tag ft-1">🟢 LIVE — 3 Interviews Active</div>
+      <div class="hero-card">
+        <div class="hero-card-header">
+          <div class="traffic-lights">
+            <div class="tl tl-r"></div>
+            <div class="tl tl-y"></div>
+            <div class="tl tl-g"></div>
+          </div>
+          <div class="card-title-bar">INTERVIEW_PRO — MONITOR DASHBOARD</div>
+        </div>
+        <div class="hero-card-body">
+          <div class="monitor-grid">
+            <div class="monitor-tile active">
+              <div class="monitor-tile-label">Webcam</div>
+              <div class="monitor-icon">📹</div>
+              <div class="monitor-status">
+                <div class="status-dot"></div>
+                LIVE TRACKING
+              </div>
+            </div>
+            <div class="monitor-tile active">
+              <div class="monitor-tile-label">Screen</div>
+              <div class="monitor-icon">🖥️</div>
+              <div class="monitor-status">
+                <div class="status-dot"></div>
+                CAPTURING
+              </div>
+            </div>
+            <div class="monitor-tile active">
+              <div class="monitor-tile-label">Mobile Camera</div>
+              <div class="monitor-icon">📱</div>
+              <div class="monitor-status">
+                <div class="status-dot"></div>
+                PAIRED & MONITORING
+              </div>
+            </div>
+          </div>
+          <div class="card-score-row">
+            <div class="score-chip">
+              <span class="score-chip-label">Integrity Score</span>
+              <span class="score-chip-val pass">100%</span>
+            </div>
+            <div class="score-chip">
+              <span class="score-chip-label">Tab Switches</span>
+              <span class="score-chip-val warn">0</span>
+            </div>
+            <div class="score-chip">
+              <span class="score-chip-label">Status</span>
+              <span class="score-chip-val pass">CLEAN</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="floating-tag ft-2">✓ Result Verified — No Cheating Detected</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── STATS BAR ─── -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item reveal">
+      <div class="stat-num">3<span>×</span></div>
+      <div class="stat-label">Monitoring Layers</div>
+    </div>
+    <div class="stat-item reveal delay-1">
+      <div class="stat-num">100<span>%</span></div>
+      <div class="stat-label">Cheat-Proof Guarantee</div>
+    </div>
+    <div class="stat-item reveal delay-2">
+      <div class="stat-num">5<span>+</span></div>
+      <div class="stat-label">Free Sessions on Signup</div>
+    </div>
+    <div class="stat-item reveal delay-3">
+      <div class="stat-num">90<span>%</span></div>
+      <div class="stat-label">Fewer Technical Failures</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── FEATURES ─── -->
+<section class="features" id="features">
+  <div class="features-inner">
+    <div class="features-header">
+      <div>
+        <div class="section-tag reveal">Platform Features</div>
+        <h2 class="section-title reveal delay-1">EVERYTHING YOU<br>NEED TO <em>HIRE</em></h2>
+      </div>
+      <p class="section-sub reveal delay-2">
+        Powerful tools designed to help you assess candidates effectively and make better, data-driven hiring decisions — from setup to signed offer.
+      </p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feat-card reveal">
+        <div class="feat-num">01</div>
+        <span class="feat-icon">➕</span>
+        <div class="feat-name">Easy Interview Creation</div>
+        <p class="feat-desc">Create custom coding interviews in minutes. Select problems, set duration, configure security, and generate shareable links instantly.</p>
+      </div>
+      <div class="feat-card reveal delay-1">
+        <div class="feat-num">02</div>
+        <span class="feat-icon">💻</span>
+        <div class="feat-name">Diverse Problem Library</div>
+        <p class="feat-desc">Curated coding problems across multiple difficulty levels and topics. Filter by tags and difficulty to create the perfect assessment.</p>
+      </div>
+      <div class="feat-card reveal delay-2">
+        <div class="feat-num">03</div>
+        <span class="feat-icon">🔒</span>
+        <div class="feat-name">Triple-Layer Security</div>
+        <p class="feat-desc">Webcam + Screen + Mobile monitoring with tab switch detection, fullscreen enforcement, copy-paste prevention, and suspicious activity alerts.</p>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-num">04</div>
+        <span class="feat-icon">📊</span>
+        <div class="feat-name">Detailed Analytics</div>
+        <p class="feat-desc">Comprehensive reports with code submissions, test results, time tracking, and security alerts. Make data-driven hiring decisions.</p>
+      </div>
+      <div class="feat-card reveal delay-1">
+        <div class="feat-num">05</div>
+        <span class="feat-icon">👥</span>
+        <div class="feat-name">Team Collaboration</div>
+        <p class="feat-desc">Invite multiple admins to your organization. Shared credit pool and centralized management for seamless team workflows.</p>
+      </div>
+      <div class="feat-card reveal delay-2">
+        <div class="feat-num">06</div>
+        <span class="feat-icon">⚡</span>
+        <div class="feat-name">Real-Time Code Execution</div>
+        <p class="feat-desc">Fast code execution with multi-language support. Candidates get instant feedback on their submissions during the interview.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SECURITY ─── -->
+<section class="security" id="security">
+  <div class="security-inner">
+    <div class="security-visual reveal">
+      <div class="layer-stack">
+        <div class="layer-card">
+          <div class="layer-ico">📹</div>
+          <div class="layer-info">
+            <div class="layer-name">Layer 1 — Webcam</div>
+            <div class="layer-desc">Continuous face tracking every 30 seconds throughout the interview</div>
+          </div>
+          <div class="layer-badge">ACTIVE</div>
+        </div>
+        <div class="layer-card">
+          <div class="layer-ico">🖥️</div>
+          <div class="layer-info">
+            <div class="layer-name">Layer 2 — Screen Capture</div>
+            <div class="layer-desc">Full screen activity recorded every 5 minutes with timestamps</div>
+          </div>
+          <div class="layer-badge">ACTIVE</div>
+        </div>
+        <div class="layer-card">
+          <div class="layer-ico">📱</div>
+          <div class="layer-info">
+            <div class="layer-name">Layer 3 — Mobile Phone</div>
+            <div class="layer-desc">Candidate's own phone becomes a secondary proctoring camera via QR pairing</div>
+          </div>
+          <div class="layer-badge">PAIRED</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="security-right">
+      <div class="section-tag reveal">Security System</div>
+      <h2 class="section-title reveal delay-1">THE ONLY<br><em>TRIPLE-LAYER</em><br>PLATFORM</h2>
+      <p class="section-sub reveal delay-2">Most platforms only use webcam OR screen. We use all three simultaneously — making impersonation and proxy test-taking physically impossible.</p>
+
+      <div class="security-points">
+        <div class="sec-point reveal delay-1">
+          <div class="sec-check">✓</div>
+          <div>
+            <div class="sec-text-title">Zero Cheating Possibility</div>
+            <div class="sec-text-desc">Multi-angle monitoring prevents impersonation from any direction</div>
+          </div>
+        </div>
+        <div class="sec-point reveal delay-2">
+          <div class="sec-check">✓</div>
+          <div>
+            <div class="sec-text-title">Tab Switch & Fullscreen Detection</div>
+            <div class="sec-text-desc">Automatic alerts on any suspicious behavior with timestamped logs</div>
+          </div>
+        </div>
+        <div class="sec-point reveal delay-3">
+          <div class="sec-check">✓</div>
+          <div>
+            <div class="sec-text-title">QR Code Mobile Pairing — Instant</div>
+            <div class="sec-text-desc">No app install needed. Candidate scans QR, phone becomes secondary camera</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── HOW IT WORKS ─── -->
+<section class="how" id="how-it-works">
+  <div class="how-inner">
+    <div class="how-header">
+      <div class="section-tag reveal">Process</div>
+      <h2 class="section-title reveal delay-1">UP AND RUNNING<br>IN <em>4 STEPS</em></h2>
+    </div>
+    <div class="how-steps">
+      <div class="step reveal">
+        <div class="step-num-wrap">
+          <div class="step-num">1</div>
+        </div>
+        <div class="step-title">Create Account</div>
+        <p class="step-desc">Register with your company email and instantly receive 5 free interview sessions to explore the platform.</p>
+      </div>
+      <div class="step reveal delay-1">
+        <div class="step-num-wrap">
+          <div class="step-num">2</div>
+        </div>
+        <div class="step-title">Build Interview</div>
+        <p class="step-desc">Choose coding problems, configure security settings, and set time limits. Done in under 2 minutes.</p>
+      </div>
+      <div class="step reveal delay-2">
+        <div class="step-num-wrap">
+          <div class="step-num">3</div>
+        </div>
+        <div class="step-title">Send to Candidate</div>
+        <p class="step-desc">Share the unique interview link. Candidate completes a 5-step setup check before the clock starts.</p>
+      </div>
+      <div class="step reveal delay-3">
+        <div class="step-num-wrap">
+          <div class="step-num">4</div>
+        </div>
+        <div class="step-title">Review Results</div>
+        <p class="step-desc">Access full reports with code, test results, time tracking, and complete monitoring evidence.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PRICING ─── -->
+<section class="pricing" id="pricing">
+  <div class="pricing-inner">
+    <div class="pricing-header">
+      <div class="section-tag reveal">Pricing</div>
+      <h2 class="section-title reveal delay-1">SIMPLE,<br><em>TRANSPARENT</em></h2>
+      <p class="section-sub reveal delay-2">Credit-based system. Pay only for what you use. All plans include every platform feature.</p>
+    </div>
+
+    <div class="pricing-grid">
+      <!-- Pay Per Interview -->
+      <div class="p-card reveal">
+        <div class="p-name">Pay Per Use</div>
+        <div class="p-price">$5<sub>/interview</sub></div>
+        <div class="p-period">No monthly commitment</div>
+        <div class="p-save-badge">Most Flexible</div>
+        <div class="p-divider"></div>
+        <div class="p-admin">👥 Up to <strong>5 Admins</strong></div>
+        <ul class="p-features">
+          <li><span class="p-check">✓</span> Pay only per interview</li>
+          <li><span class="p-check">✓</span> No subscription required</li>
+          <li><span class="p-check">✓</span> Full platform access</li>
+          <li><span class="p-check">✓</span> All coding problems</li>
+          <li><span class="p-check">✓</span> Security monitoring</li>
+          <li><span class="p-check">✓</span> Analytics & reports</li>
+        </ul>
+        <a href="/admin-register.html" class="btn-ghost">Contact Us</a>
+      </div>
+
+      <!-- Basic -->
+      <div class="p-card reveal delay-1">
+        <div class="p-name">Basic</div>
+        <div class="p-price-old">$250/month</div>
+        <div class="p-price">$99<sub>/mo</sub></div>
+        <div class="p-period">99 Interview Credits</div>
+        <div class="p-save-badge">60% OFF — Save $151</div>
+        <div class="p-divider"></div>
+        <div class="p-admin">👥 Up to <strong>20 Admins</strong></div>
+        <ul class="p-features">
+          <li><span class="p-check">✓</span> 99 Interview Sessions</li>
+          <li><span class="p-check">✓</span> All coding problems</li>
+          <li><span class="p-check">✓</span> Security monitoring</li>
+          <li><span class="p-check">✓</span> Analytics & reports</li>
+          <li><span class="p-check">✓</span> Team collaboration</li>
+          <li><span class="p-check-blue">+</span> Add-on: 50 credits for $50</li>
+        </ul>
+        <a href="/admin-register.html" class="btn-ghost">Contact Us</a>
+      </div>
+
+      <!-- Professional - Featured -->
+      <div class="p-card featured reveal delay-2">
+        <div class="p-pop-badge">Most Popular</div>
+        <div class="p-name">Professional</div>
+        <div class="p-price-old">$500/month</div>
+        <div class="p-price">$199<sub>/mo</sub></div>
+        <div class="p-period">300 Interview Credits</div>
+        <div class="p-save-badge">60% OFF — $0.66 per interview</div>
+        <div class="p-divider"></div>
+        <div class="p-admin">👥 Up to <strong>50 Admins</strong></div>
+        <ul class="p-features">
+          <li><span class="p-check">✓</span> 300 Interview Sessions</li>
+          <li><span class="p-check">✓</span> All coding problems</li>
+          <li><span class="p-check">✓</span> Security monitoring</li>
+          <li><span class="p-check">✓</span> Analytics & reports</li>
+          <li><span class="p-check">✓</span> Team collaboration</li>
+          <li><span class="p-check">✓</span> Priority support</li>
+        </ul>
+        <a href="/admin-register.html" class="btn-primary">Contact Us →</a>
+      </div>
+
+      <!-- Enterprise -->
+      <div class="p-card reveal delay-3">
+        <div class="p-name">Enterprise</div>
+        <div class="p-price-old">$700/month</div>
+        <div class="p-price">$299<sub>/mo</sub></div>
+        <div class="p-period">Unlimited Interviews</div>
+        <div class="p-save-badge">57% OFF — Unlimited Scale</div>
+        <div class="p-divider"></div>
+        <div class="p-admin">👥 Up to <strong>100 Admins</strong></div>
+        <ul class="p-features">
+          <li><span class="p-check">✓</span> Unlimited Sessions</li>
+          <li><span class="p-check">✓</span> All coding problems</li>
+          <li><span class="p-check">✓</span> Security monitoring</li>
+          <li><span class="p-check">✓</span> Analytics & reports</li>
+          <li><span class="p-check">✓</span> Team collaboration</li>
+          <li><span class="p-check">✓</span> Dedicated account manager</li>
+        </ul>
+        <a href="/admin-register.html" class="btn-ghost">Contact Us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA ─── -->
+<section class="cta-section">
+  <div class="cta-bg-text">HIRE</div>
+  <div class="cta-glow"></div>
+  <div class="cta-inner">
+    <div class="section-tag reveal" style="justify-content:center;">Get Started Today</div>
+    <h2 class="cta-title reveal delay-1">READY TO<br>HIRE <em>BETTER?</em></h2>
+    <p class="cta-sub reveal delay-2">Join hundreds of companies using Interview Pro to hire the best technical talent — with results they can actually trust.</p>
+    <div class="cta-actions reveal delay-3">
+      <a href="/admin-register.html" class="btn-primary btn-xl">Start Free — 5 Sessions →</a>
+      <a href="#pricing" class="btn-outline-xl">View Pricing</a>
+    </div>
+    <p class="cta-note reveal delay-4">No credit card required &nbsp;·&nbsp; Full platform access &nbsp;·&nbsp; Cancel anytime</p>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-inner">
+    <a href="#" class="footer-brand nav-logo" style="text-decoration:none;">
+      <div class="logo-mark" style="width:30px;height:30px;font-size:14px;">IP</div>
+      <span class="logo-text" style="font-size:18px;">INTERVIEW<span>PRO</span></span>
+    </a>
+    <div class="footer-links">
+      <a href="#features">Features</a>
+      <a href="#security">Security</a>
+      <a href="#pricing">Pricing</a>
+      <a href="/admin-login.html">Login</a>
+      <a href="/admin-register.html">Register</a>
+    </div>
+    <div class="footer-badge">🔒 TRIPLE-LAYER PROCTORING</div>
+    <p class="footer-copy">© 2024 Interview Pro. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  // Navbar scroll
+  const nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  reveals.forEach(el => io.observe(el));
+
+  // Smooth anchor scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
+  });
+</script>
+</body>
+</html>
