@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register — Interview Pro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --blue: #0652e9;
+    --blue-dim: #0444c4;
+    --blue-glow: rgba(6, 82, 233, 0.4);
+    --blue-light: rgba(6, 82, 233, 0.1);
+    --blue-border: rgba(6, 82, 233, 0.3);
+    --black: #080808;
+    --black-soft: #111111;
+    --black-card: #141414;
+    --black-border: #1e1e1e;
+    --white: #ffffff;
+    --white-dim: rgba(255,255,255,0.55);
+    --white-faint: rgba(255,255,255,0.06);
+    --white-line: rgba(255,255,255,0.08);
+    --success: #4ade80;
+    --success-bg: rgba(74,222,128,0.1);
+    --success-border: rgba(74,222,128,0.25);
+    --danger: #f87171;
+    --danger-bg: rgba(248,113,113,0.1);
+    --danger-border: rgba(248,113,113,0.25);
+    --warn: #facc15;
+    --warn-bg: rgba(250,204,21,0.1);
+    --warn-border: rgba(250,204,21,0.25);
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Noise */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9999; opacity: 0.4;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    height: 64px; padding: 0 5vw;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(8,8,8,0.9);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--white-line);
+    position: sticky; top: 0; z-index: 100;
+  }
+
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px; text-decoration: none;
+  }
+
+  .logo-mark {
+    width: 32px; height: 32px;
+    background: var(--blue);
+    clip-path: polygon(0 0, 100% 0, 100% 70%, 70% 100%, 0 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-size: 15px; color: white;
+    transition: transform 0.3s ease;
+  }
+
+  .nav-logo:hover .logo-mark { transform: rotate(8deg) scale(1.1); }
+
+  .logo-text {
+    font-family: var(--font-display); font-size: 20px;
+    letter-spacing: 2px; color: var(--white);
+  }
+  .logo-text span { color: var(--blue); }
+
+  .nav-right {
+    display: flex; align-items: center; gap: 12px;
+  }
+
+  .nav-hint { font-size: 13px; color: var(--white-dim); }
+
+  .btn-nav {
+    padding: 8px 18px; background: transparent;
+    color: var(--white-dim); border: 1px solid var(--black-border);
+    border-radius: 4px; font-family: var(--font-body);
+    font-size: 13px; font-weight: 600; text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .btn-nav:hover { color: var(--white); border-color: rgba(255,255,255,0.2); }
+
+  /* ─── LAYOUT ─── */
+  .page-body {
+    flex: 1;
+    display: grid; grid-template-columns: 1fr 1.4fr;
+    min-height: calc(100vh - 64px);
+    align-items: stretch;
+  }
+
+  /* ─── LEFT PANEL ─── */
+  .left-panel {
+    background: var(--black-soft);
+    border-right: 1px solid var(--black-border);
+    padding: 60px 56px;
+    display: flex; flex-direction: column; justify-content: center;
+    position: sticky; top: 64px;
+    height: calc(100vh - 64px);
+    overflow: hidden;
+  }
+
+  .left-panel::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+  }
+
+  .left-panel::after {
+    content: '';
+    position: absolute; top: -30%; left: -20%;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(6,82,233,0.15) 0%, transparent 65%);
+    border-radius: 50%; pointer-events: none;
+    animation: glow-pulse 8s ease-in-out infinite;
+  }
+
+  @keyframes glow-pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.7; }
+  }
+
+  .left-content { position: relative; z-index: 2; }
+
+  .left-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--blue); letter-spacing: 2px; text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .left-tag::before { content: ''; width: 24px; height: 1px; background: var(--blue); }
+
+  .left-headline {
+    font-family: var(--font-display);
+    font-size: clamp(44px, 4.5vw, 68px);
+    line-height: 0.93; letter-spacing: 1px; color: var(--white);
+    margin-bottom: 24px;
+  }
+  .left-headline em { font-style: normal; color: var(--blue); }
+  .left-headline .outline {
+    -webkit-text-stroke: 1.5px rgba(255,255,255,0.3); color: transparent;
+  }
+
+  .left-body {
+    font-size: 15px; color: var(--white-dim);
+    line-height: 1.75; font-weight: 300; max-width: 380px; margin-bottom: 44px;
+  }
+
+  /* Trust bullets */
+  .trust-list {
+    display: flex; flex-direction: column; gap: 14px;
+  }
+
+  .trust-item {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 16px 18px;
+    background: var(--black-card);
+    border: 1px solid var(--black-border);
+    border-radius: 10px;
+    transition: border-color 0.3s;
+  }
+  .trust-item:hover { border-color: var(--blue-border); }
+
+  .trust-ico {
+    width: 34px; height: 34px; flex-shrink: 0;
+    background: var(--blue-light); border: 1px solid var(--blue-border);
+    border-radius: 8px; display: flex; align-items: center; justify-content: center;
+    font-size: 15px; margin-top: 1px;
+  }
+
+  .trust-text-title {
+    font-size: 13px; font-weight: 700; color: var(--white); margin-bottom: 2px;
+  }
+  .trust-text-sub { font-size: 12px; color: var(--white-dim); line-height: 1.5; }
+
+  .free-badge {
+    margin-top: 32px;
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 20px;
+    background: rgba(74,222,128,0.08);
+    border: 1px solid rgba(74,222,128,0.2);
+    border-radius: 10px;
+  }
+
+  .free-badge-ico { font-size: 22px; }
+
+  .free-badge-text { }
+
+  .free-badge-title {
+    font-size: 14px; font-weight: 700; color: var(--success); margin-bottom: 2px;
+  }
+  .free-badge-sub { font-size: 12px; color: var(--white-dim); }
+
+  /* ─── RIGHT PANEL ─── */
+  .right-panel {
+    background: var(--black);
+    padding: 60px 64px;
+    display: flex; flex-direction: column; justify-content: flex-start;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .right-panel::before {
+    content: '';
+    position: absolute; bottom: -20%; right: -20%;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(6,82,233,0.07) 0%, transparent 65%);
+    border-radius: 50%; pointer-events: none;
+  }
+
+  .form-wrap {
+    max-width: 520px; width: 100%;
+    margin: 0 auto; position: relative; z-index: 2;
+    animation: fadeSlideUp 0.6s ease-out both;
+  }
+
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .form-eyebrow {
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--blue); letter-spacing: 2px; text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .form-title {
+    font-family: var(--font-display); font-size: 44px;
+    line-height: 0.93; letter-spacing: 1px; color: var(--white);
+    margin-bottom: 8px;
+  }
+  .form-title em { font-style: normal; color: var(--blue); }
+
+  .form-sub {
+    font-size: 14px; color: var(--white-dim);
+    margin-bottom: 36px; line-height: 1.6;
+  }
+
+  /* ─── STEP PROGRESS ─── */
+  .step-progress {
+    display: flex; align-items: center; gap: 0;
+    margin-bottom: 36px;
+  }
+
+  .sp-step {
+    display: flex; flex-direction: column; align-items: center;
+    position: relative; flex: 1;
+  }
+
+  .sp-circle {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--black-soft);
+    border: 1px solid var(--black-border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono); font-size: 11px;
+    color: rgba(255,255,255,0.2);
+    transition: all 0.4s ease;
+    z-index: 1; position: relative;
+  }
+
+  .sp-step.active .sp-circle {
+    background: var(--blue); border-color: var(--blue);
+    color: white; box-shadow: 0 0 20px rgba(6,82,233,0.5);
+  }
+
+  .sp-step.done .sp-circle {
+    background: rgba(74,222,128,0.15);
+    border-color: rgba(74,222,128,0.4); color: var(--success);
+  }
+
+  .sp-label {
+    font-family: var(--font-mono); font-size: 9px;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: rgba(255,255,255,0.18); margin-top: 6px;
+    transition: color 0.3s;
+  }
+
+  .sp-step.active .sp-label { color: #6fa3ff; }
+  .sp-step.done .sp-label { color: rgba(74,222,128,0.6); }
+
+  .sp-line {
+    flex: 1; height: 1px;
+    background: var(--black-border);
+    margin-bottom: 22px;
+    transition: background 0.4s;
+    position: relative; top: -11px;
+  }
+
+  .sp-line.done { background: rgba(6,82,233,0.4); }
+
+  /* ─── STEP PANELS ─── */
+  .step-panel { display: none; }
+  .step-panel.active {
+    display: block;
+    animation: stepIn 0.35s ease-out both;
+  }
+
+  @keyframes stepIn {
+    from { opacity: 0; transform: translateX(14px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  /* ─── ALERTS ─── */
+  #alert-container { margin-bottom: 4px; }
+
+  .alert {
+    padding: 12px 16px; border-radius: 6px;
+    font-size: 13px; font-weight: 500; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+    animation: alertIn 0.3s ease-out;
+  }
+
+  @keyframes alertIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .alert-success { background: var(--success-bg); border: 1px solid var(--success-border); color: var(--success); }
+  .alert-error   { background: var(--danger-bg);  border: 1px solid var(--danger-border);  color: var(--danger); }
+  .alert-info    { background: var(--blue-light);  border: 1px solid var(--blue-border);    color: #6fa3ff; }
+  .alert-warn    { background: var(--warn-bg);     border: 1px solid var(--warn-border);    color: var(--warn); }
+
+  /* ─── FORM FIELDS ─── */
+  .field { margin-bottom: 18px; }
+
+  .field-label {
+    display: block; font-size: 12px; font-weight: 600;
+    color: rgba(255,255,255,0.45); letter-spacing: 1px;
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+
+  .field-required { color: var(--danger); margin-left: 2px; }
+
+  .field-input, .field-select {
+    width: 100%;
+    background: var(--black-soft);
+    border: 1px solid var(--black-border);
+    border-radius: 6px; padding: 13px 16px;
+    font-family: var(--font-body); font-size: 15px;
+    color: var(--white); outline: none;
+    transition: all 0.25s ease; -webkit-appearance: none;
+  }
+
+  .field-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.3)' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 16px center;
+    padding-right: 40px; cursor: pointer;
+  }
+
+  .field-select option { background: var(--black-card); color: var(--white); }
+
+  .field-input::placeholder { color: rgba(255,255,255,0.18); }
+
+  .field-input:focus, .field-select:focus {
+    border-color: var(--blue); background: var(--black-card);
+    box-shadow: 0 0 0 3px rgba(6,82,233,0.15);
+  }
+
+  .field-hint { margin-top: 6px; font-size: 12px; color: rgba(255,255,255,0.22); line-height: 1.5; }
+
+  /* Two columns */
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  /* ─── EMAIL INFO BOX ─── */
+  .email-box {
+    background: var(--blue-light); border: 1px solid var(--blue-border);
+    border-radius: 8px; padding: 14px 18px;
+    margin-bottom: 20px; display: flex; align-items: center; gap: 12px;
+  }
+  .email-box-ico { font-size: 20px; flex-shrink: 0; }
+  .email-box-label {
+    font-size: 10px; color: #6fa3ff; font-family: var(--font-mono);
+    letter-spacing: 1px; text-transform: uppercase; margin-bottom: 3px;
+  }
+  .email-box-val { font-size: 14px; font-weight: 600; color: var(--white); }
+  .email-box-exp { font-size: 11px; color: var(--white-dim); margin-top: 2px; }
+
+  /* Org info box */
+  .org-box {
+    background: var(--black-soft); border: 1px solid var(--black-border);
+    border-radius: 8px; padding: 14px 18px; margin-bottom: 20px;
+    display: none; align-items: center; gap: 12px;
+  }
+  .org-box.show { display: flex; }
+  .org-box-ico { font-size: 24px; flex-shrink: 0; }
+  .org-box-label {
+    font-size: 10px; font-family: var(--font-mono);
+    letter-spacing: 1px; text-transform: uppercase; margin-bottom: 3px;
+    color: rgba(255,255,255,0.3);
+  }
+  .org-box-val { font-size: 14px; font-weight: 700; color: var(--white); }
+  .org-box-sub { font-size: 12px; color: var(--white-dim); margin-top: 2px; }
+  .org-box.new-org { border-color: rgba(6,82,233,0.3); }
+  .org-box.new-org .org-box-label { color: #6fa3ff; }
+
+  /* ─── OTP INPUTS ─── */
+  .otp-row { display: flex; gap: 10px; margin-bottom: 8px; }
+
+  .otp-input {
+    flex: 1; background: var(--black-soft);
+    border: 1px solid var(--black-border);
+    border-radius: 8px; height: 58px; text-align: center;
+    font-family: var(--font-display); font-size: 28px; color: var(--white);
+    outline: none; transition: all 0.25s ease; caret-color: var(--blue);
+    -webkit-appearance: none;
+  }
+  .otp-input:focus {
+    border-color: var(--blue); background: var(--black-card);
+    box-shadow: 0 0 0 3px rgba(6,82,233,0.15);
+  }
+  .otp-input.filled { border-color: rgba(6,82,233,0.4); background: rgba(6,82,233,0.06); color: #6fa3ff; }
+
+  /* ─── BUTTON ─── */
+  .btn-submit {
+    width: 100%; padding: 15px;
+    background: var(--blue); color: white; border: none;
+    border-radius: 6px; font-family: var(--font-body);
+    font-size: 15px; font-weight: 700; cursor: pointer;
+    letter-spacing: 0.5px; transition: all 0.25s ease;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    position: relative; overflow: hidden; margin-top: 8px;
+  }
+  .btn-submit::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 60%);
+    opacity: 0; transition: opacity 0.2s;
+  }
+  .btn-submit:hover:not(:disabled) {
+    background: var(--blue-dim); transform: translateY(-2px);
+    box-shadow: 0 10px 30px var(--blue-glow);
+  }
+  .btn-submit:hover::before { opacity: 1; }
+  .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+  /* Spinner */
+  .spinner {
+    width: 16px; height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite; flex-shrink: 0;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ─── LINKS ─── */
+  .form-links {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 22px;
+  }
+  .form-link { font-size: 13px; color: var(--white-dim); text-decoration: none; transition: color 0.2s; }
+  .form-link:hover { color: var(--white); }
+  .form-link-blue { font-size: 13px; color: #6fa3ff; text-decoration: none; font-weight: 600; transition: color 0.2s; }
+  .form-link-blue:hover { color: white; }
+
+  .resend-row { text-align: center; margin-top: 14px; }
+  .resend-row a { font-size: 13px; color: var(--white-dim); text-decoration: none; transition: color 0.2s; }
+  .resend-row a:hover { color: #6fa3ff; }
+
+  .back-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 13px; color: var(--white-dim); cursor: pointer;
+    background: none; border: none; font-family: var(--font-body);
+    transition: color 0.2s; margin-top: 18px; text-decoration: none;
+  }
+  .back-link:hover { color: var(--white); }
+
+  /* ─── SUCCESS SCREEN ─── */
+  .success-screen { text-align: center; padding: 20px 0; }
+
+  .success-icon {
+    font-size: 72px; margin-bottom: 20px;
+    animation: scaleIn 0.5s cubic-bezier(0.68,-0.55,0.265,1.55) both;
+  }
+  @keyframes scaleIn {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .success-title {
+    font-family: var(--font-display); font-size: 52px;
+    line-height: 0.93; letter-spacing: 1px; color: var(--white);
+    margin-bottom: 10px;
+  }
+  .success-title em { font-style: normal; color: var(--blue); }
+
+  .success-sub { font-size: 15px; color: var(--white-dim); margin-bottom: 32px; }
+
+  .success-detail-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    margin-bottom: 24px; text-align: left;
+  }
+
+  .sdc {
+    background: var(--black-soft); border: 1px solid var(--black-border);
+    border-radius: 10px; padding: 16px 18px;
+  }
+  .sdc-label {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px;
+    text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 6px;
+  }
+  .sdc-val { font-size: 14px; font-weight: 700; color: var(--white); }
+
+  .credit-box {
+    background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.2);
+    border-radius: 12px; padding: 24px 32px; margin-bottom: 28px;
+    display: flex; align-items: center; justify-content: center; gap: 20px;
+  }
+
+  .credit-num {
+    font-family: var(--font-display); font-size: 72px;
+    color: var(--success); line-height: 1; letter-spacing: 1px;
+  }
+
+  .credit-info { text-align: left; }
+  .credit-title { font-size: 16px; font-weight: 700; color: var(--success); margin-bottom: 4px; }
+  .credit-sub { font-size: 13px; color: var(--white-dim); line-height: 1.5; }
+
+  .btn-dashboard {
+    width: 100%; padding: 16px;
+    background: var(--blue); color: white; border: none;
+    border-radius: 6px; font-family: var(--font-body);
+    font-size: 15px; font-weight: 700; cursor: pointer;
+    letter-spacing: 0.5px; transition: all 0.25s ease;
+  }
+  .btn-dashboard:hover {
+    background: var(--blue-dim); transform: translateY(-2px);
+    box-shadow: 0 10px 30px var(--blue-glow);
+  }
+
+  /* ─── SECURITY FOOTER ─── */
+  .security-footer {
+    display: flex; align-items: center; gap: 8px;
+    margin-top: 32px; padding-top: 24px;
+    border-top: 1px solid var(--black-border);
+    justify-content: center;
+  }
+  .sf-dot {
+    width: 6px; height: 6px; background: var(--success);
+    border-radius: 50%; box-shadow: 0 0 6px rgba(74,222,128,0.5);
+    animation: blink 2s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+  .sf-text {
+    font-family: var(--font-mono); font-size: 11px;
+    color: rgba(255,255,255,0.2); letter-spacing: 1px; text-transform: uppercase;
+  }
+
+  /* ─── MOBILE ─── */
+  @media (max-width: 1024px) {
+    .page-body { grid-template-columns: 1fr; }
+    .left-panel { display: none; }
+    .right-panel { padding: 40px 24px; }
+    .form-wrap { max-width: 100%; }
+    .success-detail-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 640px) {
+    nav { padding: 0 20px; }
+    .nav-hint { display: none; }
+    .field-row { grid-template-columns: 1fr; }
+    .otp-row { gap: 7px; }
+    .otp-input { height: 50px; font-size: 24px; }
+    .credit-box { flex-direction: column; gap: 12px; }
+    .credit-info { text-align: center; }
+    .form-title { font-size: 36px; }
+    .success-title { font-size: 40px; }
+  }
+
+  /* Hide scrollbar but keep scroll functionality */
+  html, body {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+  }
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+  ::selection { background: var(--blue); color: white; }
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <a href="/admin-welcome.html" class="nav-logo">
+    <div class="logo-mark">IP</div>
+    <span class="logo-text">INTERVIEW<span>PRO</span></span>
+  </a>
+  <div class="nav-right">
+    <span class="nav-hint">Have an account?</span>
+    <a href="/admin-login.html" class="btn-nav">Sign In →</a>
+  </div>
+</nav>
+
+<!-- ─── PAGE BODY ─── -->
+<div class="page-body">
+
+  <!-- LEFT PANEL -->
+  <div class="left-panel">
+    <div class="left-content">
+      <div class="left-tag">Get Started</div>
+      <h1 class="left-headline">
+        START<br>
+        <em>HIRING</em><br>
+        <span class="outline">SMARTER</span>
+      </h1>
+      <p class="left-body">
+        Join companies already using Interview Pro to hire the best technical talent — with results backed by triple-layer monitoring.
+      </p>
+      <div class="trust-list">
+        <div class="trust-item">
+          <div class="trust-ico">🎯</div>
+          <div>
+            <div class="trust-text-title">4-Step Setup — Done in Minutes</div>
+            <div class="trust-text-sub">Email → OTP → Profile → Dashboard. No long forms, no credit card.</div>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-ico">🔒</div>
+          <div>
+            <div class="trust-text-title">Triple-Layer Proctoring Included</div>
+            <div class="trust-text-sub">Webcam + Screen + Mobile. Every result is 100% authentic.</div>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-ico">👥</div>
+          <div>
+            <div class="trust-text-title">Multi-Admin Team Support</div>
+            <div class="trust-text-sub">Invite your whole HR team. Shared credits, centralized dashboard.</div>
+          </div>
+        </div>
+      </div>
+      <div class="free-badge">
+        <div class="free-badge-ico">🎁</div>
+        <div class="free-badge-text">
+          <div class="free-badge-title">5 Free Interview Sessions</div>
+          <div class="free-badge-sub">No credit card required · Full platform access</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="right-panel">
+    <div class="form-wrap">
+
+      <div class="form-eyebrow">Create Account</div>
+      <h2 class="form-title">CREATE <em>YOUR</em><br>ACCOUNT</h2>
+      <p class="form-sub">Multi-tenant admin registration. Get 5 free sessions on signup.</p>
+
+      <!-- Step progress -->
+      <div class="step-progress">
+        <div class="sp-step active" id="sp-1">
+          <div class="sp-circle" id="spc-1">1</div>
+          <div class="sp-label">Email</div>
+        </div>
+        <div class="sp-line" id="spl-1"></div>
+        <div class="sp-step" id="sp-2">
+          <div class="sp-circle" id="spc-2">2</div>
+          <div class="sp-label">Verify</div>
+        </div>
+        <div class="sp-line" id="spl-2"></div>
+        <div class="sp-step" id="sp-3">
+          <div class="sp-circle" id="spc-3">3</div>
+          <div class="sp-label">Profile</div>
+        </div>
+        <div class="sp-line" id="spl-3"></div>
+        <div class="sp-step" id="sp-4">
+          <div class="sp-circle" id="spc-4">4</div>
+          <div class="sp-label">Done</div>
+        </div>
+      </div>
+
+      <!-- Alerts -->
+      <div id="alert-container"></div>
+
+      <!-- ─── STEP 1: EMAIL ─── -->
+      <div class="step-panel active" id="step-1">
+        <div class="field">
+          <label class="field-label" for="email-input">
+            Company Email<span class="field-required">*</span>
+          </label>
+          <input type="email" id="email-input" class="field-input"
+            placeholder="admin@yourcompany.com" autocomplete="email">
+          <div class="field-hint">💡 Your organization is identified by your email domain.</div>
+        </div>
+
+        <button class="btn-submit" id="btn-1" onclick="sendOTP()">
+          <span id="btn-1-text">Continue →</span>
+        </button>
+
+        <div class="form-links">
+          <span class="form-link">Already have an account?</span>
+          <a href="/admin-login.html" class="form-link-blue">Sign in →</a>
+        </div>
+      </div>
+
+      <!-- ─── STEP 2: OTP ─── -->
+      <div class="step-panel" id="step-2">
+        <div class="email-box">
+          <div class="email-box-ico">📧</div>
+          <div>
+            <div class="email-box-label">Code sent to</div>
+            <div class="email-box-val" id="email-display">—</div>
+            <div class="email-box-exp">Expires in 10 minutes</div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field-label">6-Digit Verification Code</label>
+          <div class="otp-row">
+            <input type="text" inputmode="numeric" maxlength="1" class="otp-input" id="otp-0">
+            <input type="text" inputmode="numeric" maxlength="1" class="otp-input" id="otp-1">
+            <input type="text" inputmode="numeric" maxlength="1" class="otp-input" id="otp-2">
+            <input type="text" inputmode="numeric" maxlength="1" class="otp-input" id="otp-3">
+            <input type="text" inputmode="numeric" maxlength="1" class="otp-input" id="otp-4">
+            <input type="text" inputmode="numeric" maxlength="1" class="otp-input" id="otp-5">
+          </div>
+        </div>
+
+        <button class="btn-submit" id="btn-2" onclick="verifyOTP()">
+          <span id="btn-2-text">Verify Code →</span>
+        </button>
+
+        <div class="resend-row">
+          <a href="#" onclick="resendOTP(); return false;">
+            Didn't get the code? <span style="color:#6fa3ff; font-weight:600;">Resend</span>
+          </a>
+        </div>
+        <button class="back-link" onclick="goToStep(1)">← Back to email</button>
+      </div>
+
+      <!-- ─── STEP 3: PROFILE ─── -->
+      <div class="step-panel" id="step-3">
+        <!-- Org info box (shown after OTP verify) -->
+        <div class="org-box" id="org-box">
+          <div class="org-box-ico" id="org-box-ico">🏢</div>
+          <div>
+            <div class="org-box-label" id="org-box-label">Organization</div>
+            <div class="org-box-val" id="org-box-val">—</div>
+            <div class="org-box-sub" id="org-box-sub"></div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="name-input">
+            Full Name<span class="field-required">*</span>
+          </label>
+          <input type="text" id="name-input" class="field-input"
+            placeholder="Jane Smith" autocomplete="name">
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label class="field-label" for="phone-input">Phone</label>
+            <input type="tel" id="phone-input" class="field-input"
+              placeholder="+1 234 567 8900" autocomplete="tel">
+          </div>
+          <div class="field">
+            <label class="field-label" for="dept-input">Department</label>
+            <select id="dept-input" class="field-select">
+              <option value="">Select...</option>
+              <option>Engineering</option>
+              <option>Human Resources</option>
+              <option>Product</option>
+              <option>Marketing</option>
+              <option>Sales</option>
+              <option>Operations</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="designation-input">Designation</label>
+          <input type="text" id="designation-input" class="field-input"
+            placeholder="e.g., HR Manager, Tech Lead">
+        </div>
+
+        <!-- New org name (shown only for new orgs) -->
+        <div class="field" id="org-name-field" style="display:none;">
+          <label class="field-label" for="org-name-input">
+            Organization Name<span class="field-required">*</span>
+          </label>
+          <input type="text" id="org-name-input" class="field-input"
+            placeholder="Your Company Inc.">
+          <div class="field-hint">This becomes your organization's name on the platform.</div>
+        </div>
+
+        <button class="btn-submit" id="btn-3" onclick="completeRegistration()">
+          <span id="btn-3-text">Complete Registration →</span>
+        </button>
+
+        <button class="back-link" onclick="goToStep(2)">← Back</button>
+      </div>
+
+      <!-- ─── STEP 4: SUCCESS ─── -->
+      <div class="step-panel" id="step-4">
+        <div class="success-screen">
+          <div class="success-icon">✅</div>
+          <h2 class="success-title">YOU'RE <em>IN!</em></h2>
+          <p class="success-sub">Your admin account is live. Start interviewing now.</p>
+
+          <div class="success-detail-grid">
+            <div class="sdc">
+              <div class="sdc-label">Organization</div>
+              <div class="sdc-val" id="s-org">—</div>
+            </div>
+            <div class="sdc">
+              <div class="sdc-label">Email</div>
+              <div class="sdc-val" id="s-email" style="font-size:12px; word-break:break-all;">—</div>
+            </div>
+            <div class="sdc">
+              <div class="sdc-label">Admin Role</div>
+              <div class="sdc-val" id="s-role">—</div>
+            </div>
+            <div class="sdc">
+              <div class="sdc-label">Status</div>
+              <div class="sdc-val" style="color:var(--success);">Active ✓</div>
+            </div>
+          </div>
+
+          <div class="credit-box">
+            <div class="credit-num" id="s-credits">5</div>
+            <div class="credit-info">
+              <div class="credit-title">Free Interview Sessions</div>
+              <div class="credit-sub">Ready to use right now.<br>No credit card needed.</div>
+            </div>
+          </div>
+
+          <button class="btn-dashboard" onclick="goToDashboard()">
+            Go to Dashboard →
+          </button>
+        </div>
+      </div>
+
+      <!-- Security footer (hidden on success step) -->
+      <div class="security-footer" id="sec-footer">
+        <div class="sf-dot"></div>
+        <span class="sf-text">Encrypted · OTP Auth · Zero Password Risk</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="/interviewplatformUI/config.js"></script>
+<script>
+  const API_BASE = (typeof ADMIN_API_URL !== 'undefined' ? ADMIN_API_URL : 'http://localhost:5002/api/admin') + '/auth';
+
+  let currentEmail = '';
+  let currentStep = 1;
+  let registrationToken = '';
+  let isNewOrg = false;
+  let orgInfo = null;
+
+  // ─── ALERT ───
+  function showAlert(msg, type = 'info') {
+    const c = document.getElementById('alert-container');
+    c.innerHTML = `<div class="alert alert-${type}">${msg}</div>`;
+    if (type !== 'error') setTimeout(() => { c.innerHTML = ''; }, 4500);
+  }
+
+  // ─── STEP NAV ───
+  function goToStep(step) {
+    for (let i = 1; i <= 4; i++) {
+      const panel = document.getElementById(`step-${i}`);
+      const sp = document.getElementById(`sp-${i}`);
+      panel.classList.toggle('active', i === step);
+      sp.classList.remove('active', 'done');
+      if (i === step) sp.classList.add('active');
+      if (i < step) sp.classList.add('done');
+
+      // Lines
+      if (i < 4) {
+        const line = document.getElementById(`spl-${i}`);
+        line.classList.toggle('done', i < step);
+      }
+
+      // Circle content
+      const circle = document.getElementById(`spc-${i}`);
+      circle.textContent = i < step ? '✓' : String(i);
+    }
+    currentStep = step;
+
+    // Hide security footer on success step
+    document.getElementById('sec-footer').style.display = step === 4 ? 'none' : 'flex';
+
+    if (step === 2) setTimeout(() => document.getElementById('otp-0').focus(), 100);
+    if (step === 3) setTimeout(() => document.getElementById('name-input').focus(), 100);
+  }
+
+  // ─── STEP 1: SEND OTP ───
+  async function sendOTP() {
+    const email = document.getElementById('email-input').value.trim();
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      showAlert('Please enter a valid email address.', 'error'); return;
+    }
+
+    setBtnLoading('btn-1', 'btn-1-text', true, 'Checking...');
+
+    try {
+      // Check email eligibility
+      const checkRes = await fetch(`${API_BASE}/check-email`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      const checkData = await checkRes.json();
+
+      if (!checkData.allowed) {
+        showAlert(checkData.message || 'This email is not eligible.', 'error');
+        return;
+      }
+
+      currentEmail = email;
+      isNewOrg = checkData.is_new_org;
+      orgInfo = checkData;
+
+      // Send OTP
+      const otpRes = await fetch(`${API_BASE}/send-registration-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      const otpData = await otpRes.json();
+
+      if (!otpRes.ok || !otpData.success) throw new Error(otpData.detail || 'Failed to send code');
+
+      document.getElementById('email-display').textContent = email;
+      setupOTPInputs();
+      goToStep(2);
+      showAlert('✓ Verification code sent to your inbox.', 'success');
+
+    } catch (err) {
+      showAlert(err.message || 'Something went wrong.', 'error');
+    } finally {
+      setBtnLoading('btn-1', 'btn-1-text', false, 'Continue →');
+    }
+  }
+
+  // ─── OTP SETUP ───
+  function setupOTPInputs() {
+    const inputs = Array.from({ length: 6 }, (_, i) => document.getElementById(`otp-${i}`));
+    inputs.forEach(x => { x.value = ''; x.classList.remove('filled'); });
+
+    inputs.forEach((inp, i) => {
+      inp.oninput = () => {
+        inp.value = inp.value.replace(/[^0-9]/g, '').slice(0, 1);
+        inp.classList.toggle('filled', !!inp.value);
+        if (inp.value && i < 5) inputs[i + 1].focus();
+        if (inputs.every(x => x.value)) verifyOTP();
+      };
+      inp.onkeydown = (e) => {
+        if (e.key === 'Backspace' && !inp.value && i > 0) {
+          inputs[i - 1].value = ''; inputs[i - 1].classList.remove('filled'); inputs[i - 1].focus();
+        }
+      };
+      inp.onpaste = (e) => {
+        e.preventDefault();
+        const text = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
+        text.split('').forEach((ch, j) => { if (inputs[j]) { inputs[j].value = ch; inputs[j].classList.add('filled'); } });
+        inputs[Math.min(text.length, 5)].focus();
+        if (text.length === 6) verifyOTP();
+      };
+    });
+  }
+
+  // ─── STEP 2: VERIFY OTP ───
+  async function verifyOTP() {
+    const inputs = Array.from({ length: 6 }, (_, i) => document.getElementById(`otp-${i}`));
+    const otp = inputs.map(x => x.value).join('');
+    if (otp.length !== 6) { showAlert('Please enter all 6 digits.', 'error'); return; }
+
+    setBtnLoading('btn-2', 'btn-2-text', true, 'Verifying...');
+
+    try {
+      const res = await fetch(`${API_BASE}/verify-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: currentEmail, otp })
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) throw new Error(data.detail || 'Invalid code');
+
+      registrationToken = data.registration_token;
+      isNewOrg = data.is_new_org ?? isNewOrg;
+
+      // Populate org box
+      const orgBox = document.getElementById('org-box');
+      if (isNewOrg) {
+        orgBox.className = 'org-box new-org show';
+        document.getElementById('org-box-ico').textContent = '🆕';
+        document.getElementById('org-box-label').textContent = 'New Organization';
+        document.getElementById('org-box-val').textContent = 'You\'re creating a new organization';
+        document.getElementById('org-box-sub').textContent = 'You\'ll be the founder admin';
+        document.getElementById('org-name-field').style.display = 'block';
+      } else {
+        orgBox.className = 'org-box show';
+        document.getElementById('org-box-ico').textContent = '🏢';
+        document.getElementById('org-box-label').textContent = 'Joining Organization';
+        document.getElementById('org-box-val').textContent = orgInfo?.org_name || 'Your Company';
+        document.getElementById('org-box-sub').textContent = orgInfo?.admin_slots ? `${orgInfo.admin_slots} admin slot(s) available` : '';
+        document.getElementById('org-name-field').style.display = 'none';
+      }
+
+      goToStep(3);
+      showAlert('✓ Email verified successfully!', 'success');
+
+    } catch (err) {
+      showAlert(err.message || 'Verification failed. Try again.', 'error');
+      inputs.forEach(x => { x.value = ''; x.classList.remove('filled'); });
+      inputs[0].focus();
+    } finally {
+      setBtnLoading('btn-2', 'btn-2-text', false, 'Verify Code →');
+    }
+  }
+
+  // ─── RESEND ───
+  async function resendOTP() {
+    try {
+      const res = await fetch(`${API_BASE}/send-registration-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: currentEmail })
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) throw new Error(data.detail || 'Failed to resend');
+      const inputs = Array.from({ length: 6 }, (_, i) => document.getElementById(`otp-${i}`));
+      inputs.forEach(x => { x.value = ''; x.classList.remove('filled'); });
+      inputs[0].focus();
+      showAlert('✓ New code sent!', 'success');
+    } catch (err) {
+      showAlert(err.message || 'Failed to resend.', 'error');
+    }
+  }
+
+  // ─── STEP 3: COMPLETE ───
+  async function completeRegistration() {
+    const name = document.getElementById('name-input').value.trim();
+    const phone = document.getElementById('phone-input').value.trim();
+    const dept = document.getElementById('dept-input').value;
+    const designation = document.getElementById('designation-input').value.trim();
+    const orgName = isNewOrg ? document.getElementById('org-name-input').value.trim() : null;
+
+    if (!name) { showAlert('Please enter your full name.', 'error'); return; }
+    if (isNewOrg && !orgName) { showAlert('Please enter your organization name.', 'error'); return; }
+
+    setBtnLoading('btn-3', 'btn-3-text', true, 'Creating Account...');
+
+    try {
+      const payload = {
+        registration_token: registrationToken,
+        name, phone: phone || null, department: dept || null, designation: designation || null
+      };
+      if (isNewOrg) payload.org_name = orgName;
+
+      const res = await fetch(`${API_BASE}/complete-registration`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) throw new Error(data.detail || 'Registration failed');
+
+      sessionStorage.setItem('adminUser', JSON.stringify({
+        user_id: data.user_id, name: data.name,
+        email: data.email, org_id: data.org_id, org_name: data.org_name
+      }));
+
+      // Populate success screen
+      document.getElementById('s-org').textContent = data.org_name || '—';
+      document.getElementById('s-email').textContent = data.email || currentEmail;
+      document.getElementById('s-role').textContent = isNewOrg ? 'Founder Admin' : 'Admin';
+      document.getElementById('s-credits').textContent = isNewOrg ? '5' : '—';
+
+      goToStep(4);
+
+    } catch (err) {
+      showAlert(err.message || 'Registration failed.', 'error');
+    } finally {
+      setBtnLoading('btn-3', 'btn-3-text', false, 'Complete Registration →');
+    }
+  }
+
+  // ─── DASHBOARD ───
+  function goToDashboard() { window.location.href = '/admin.html'; }
+
+  // ─── LOADING HELPER ───
+  function setBtnLoading(btnId, txtId, loading, label) {
+    const btn = document.getElementById(btnId);
+    const txt = document.getElementById(txtId);
+    btn.disabled = loading;
+    txt.innerHTML = loading ? `<span class="spinner"></span> ${label}` : label;
+  }
+
+  // Enter key
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      if (currentStep === 1) sendOTP();
+      else if (currentStep === 3) completeRegistration();
+    }
+  });
+</script>
+</body>
+</html>
